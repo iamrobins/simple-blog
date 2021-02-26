@@ -1,12 +1,40 @@
-import Head from 'next/head'
+// import { NextPageContext } from 'next';
+// import { AppInitialProps } from 'next/app';
+import { NextPage } from 'next';
 import styles from '../styles/Home.module.css'
 
-export default function Home() {
+type article = { id: string, title: string, excerpt: string, body: string };
+
+interface HomeProps {
+  articles: article[]
+}
+
+const Home: NextPage<HomeProps> = ({articles}) => {
+  console.log(articles)
   return (
-    <div>
-      Hello
+    <div className={styles.container}>
+      <h1>Simple Blog Next.js</h1>
     </div>
   )
+}
+export default Home;
+// export default function Home: NextPage<HomeProps>({articles}: HomeProps) {
+//   console.log(articles)
+//   return (
+//     <div className={styles.container}>
+//       <h1>Simple Blog Next.js</h1>
+//     </div>
+//   )
+// }
+
+export const getStaticProps = async() => {
+  const res = await fetch("http://localhost:3000/api/articles");
+  const articles = await res.json();
+
+  const hello = {cat: "mewo"};
+  return {
+    props: {articles}
+  }
 }
 // export default function Home() {
 //   return (
